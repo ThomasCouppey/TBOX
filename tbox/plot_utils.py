@@ -141,7 +141,9 @@ f_kwgs2_small = {
     "color":"#E7AE46",
 }
 
-compute_alpha = lambda i_, n_: (1)/(i_+1)
+def compute_alpha(i_, n_):
+    """Return the default alpha value for an item index."""
+    return 1/(i_+1)
 
 def set_axes(axs:plt.Axes|list, to_rmv:list=["all"], to_add:list=[]):
     """Hide or add axis lines on one or more Matplotlib axes.
@@ -193,13 +195,13 @@ def valid_diameter(mydict, model="", filter_monotony=True):
     """
     speed = np.array(mydict["speed"][model])
     if filter_monotony:
-        I = np.argwhere((speed>0) & (np.diff(speed, prepend=speed[0]) >= 0))
-        if speed[I[0]] > speed[I[1]]:
-            I[0] = I[1] - 1
+        indices = np.argwhere((speed>0) & (np.diff(speed, prepend=speed[0]) >= 0))
+        if speed[indices[0]] > speed[indices[1]]:
+            indices[0] = indices[1] - 1
     else:
-        I = np.argwhere((speed>0))
+        indices = np.argwhere((speed>0))
 
-    return I
+    return indices
 
 
 def plot_config(ax, **kwgs):
@@ -400,7 +402,7 @@ def rainbowarrow(ax, start, end, cmap="viridis", n=50,lw=3, headw=100):
         Marker size for the arrow head. If ``None``, it is derived from
         ``lw``.
     """
-    if headw == None:
+    if headw is None:
         headw = (2*lw)**2
     if isinstance(cmap, tuple):
         cmap = linear_cmap(*cmap, n=n)
