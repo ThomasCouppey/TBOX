@@ -1,0 +1,3 @@
+export PYTHONPATH="${PWD}:$PYTHONPATH"
+export PATH="$PWD/tbox:$PATH"
+export TBOXPATH="${PWD}/tbox"
